@@ -24,7 +24,9 @@ const MenuNavigator = createStackNavigator({
 });
 
 const HomeNavigator = createStackNavigator({
-    Home: {screen: Home}
+    Home: {
+        screen: Home
+    }
     }, {
     navigationOptions: {
         headerStyle: {
