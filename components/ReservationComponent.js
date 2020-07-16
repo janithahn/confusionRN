@@ -28,11 +28,11 @@ class Reservation extends Component {
             date: '',
             showModal: false
         });
+        this.toggleModal();
     }
     
     toggleModal() {
         this.setState({showModal: !this.state.showModal});
-        this.toggleModal();
     }
 
     resetForm() {
