@@ -1,15 +1,16 @@
 import React, {Component} from 'react';
-import {View, FlatList} from 'react-native';
-import {ListItem} from 'react-native-elements';
-import { DISHES } from '../shared/dishes';
+import {FlatList} from 'react-native';
+import {Tile} from 'react-native-elements';
+import { baseUrl } from '../shared/baseurl';
+import { connect } from 'react-redux';
+
+const mapStateToPros = state => {
+    return{
+        dishes: state.dishes
+    }
+}
 
 class Menu extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            dishes: DISHES
-        };
-    }
 
     static navigationOptions = {
         title: 'Menu'
@@ -18,13 +19,13 @@ class Menu extends Component {
     render(){
         const renderMenuItem = ({item, index}) => {
             return(
-                <ListItem
+                <Tile
                     key={index}
                     title={item.name}
-                    subtitle={item.description}
-                    chevron={true}
+                    caption={item.description}
+                    featured
                     onPress={() => navigate('Dishdetail', {dishId: item.id})}
-                    leftAvatar={{source: {uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg'}}}
+                    imageSrc={{uri: baseUrl + item.image}}
                 />
             );
         }
@@ -33,7 +34,7 @@ class Menu extends Component {
 
         return(
             <FlatList
-                data={this.state.dishes}
+                data={this.props.dishes.dishes}
                 renderItem={renderMenuItem}
                 keyExtractor={item => item.id.toString()}
             />
@@ -41,4 +42,4 @@ class Menu extends Component {
     }
 }
 
-export default Menu;
+export default connect(mapStateToPros)(Menu);

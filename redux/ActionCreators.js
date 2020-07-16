@@ -87,6 +87,10 @@ export const fetchPromos = () => (dispatch) => {
         .catch(error => dispatch(promosFailed(error.message)))
 }
 
+export const promosLoading = () => ({
+    type: ActionTypes.PROMOS_LOADING
+});
+
 export const promosFailed = (errmess) => ({
     type: ActionTypes.PROMOS_FAILED,
     payload: errmess

@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
 import {Text, View, FlatList} from 'react-native';
 import {Card, ListItem} from 'react-native-elements';
-import {LEADERS} from '../shared/leaders';
+import {connect} from 'react-redux';
+import {baseUrl} from '../shared/baseurl';
+
+const mapStateToPros = state => {
+    return{
+        leaders: state.leaders
+    }
+}
 
 function RenderItems(props) {
     if(props != null) {
@@ -11,8 +18,8 @@ function RenderItems(props) {
                     key={index}
                     title={item.name}
                     subtitle={item.description}
-                    chevron={true}
-                    leftAvatar={{source: require('./images/alberto.png')}}
+                    chevron={false}
+                    leftAvatar={{uri: baseUrl + item.image}}
                 />
             );
         }
@@ -31,12 +38,6 @@ function RenderItems(props) {
 }
 
 class About extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            leaders: LEADERS
-        }
-    }
 
     render() {
         return(
@@ -47,10 +48,10 @@ class About extends Component {
                         <p>The restaurant traces its humble beginnings to The Frying Pan, a successful chain started by our CEO, Mr. Peter Pan, that featured for the first time the world's best cuisines in a pan.</p>
                     </Text>
                 </Card>
-                <RenderItems leaders={this.state.leaders}/>
+                <RenderItems leaders={this.props.leaders.leaders}/>
             </div>
         );
     }
 }
 
-export default About;
+export default connect(mapStateToPros)(About);
