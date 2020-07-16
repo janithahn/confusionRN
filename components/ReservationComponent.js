@@ -22,12 +22,6 @@ class Reservation extends Component {
 
     handleReservation() {
         console.log(JSON.stringify(this.state));
-        this.setState({
-            guests: 1,
-            smoking: false,
-            date: '',
-            showModal: false
-        });
         this.toggleModal();
     }
     
