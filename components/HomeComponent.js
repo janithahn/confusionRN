@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {ScrollView, Text, View} from 'react-native';
+import {Text, View, Animated, Easing} from 'react-native';
 import {Card} from 'react-native-elements';
 import {baseUrl} from '../shared/baseurl';
 import { connect } from 'react-redux';
@@ -45,17 +45,59 @@ function RenderItem(props) {
 
 class Home extends Component {
 
+    constructor(props) {
+        super(props);
+        this.animatedValue = new Animated.Value(0);
+    }
+
     static navigationOptions = {
         title: 'Home'
     };
 
+    componentDidMount() {
+        this.animate();
+    }
+
+    animate() {
+        this.animatedValue.setValue(0);
+        Animated.timing(
+            this.animatedValue,
+            {
+                toValue: 8,
+                duration: 8000,
+                easing: Easing.linear
+            }
+        ).start(() => this.animate());
+    }
+
     render() {
+        const xpos1 = this.animatedValue.interpolate({
+            inputRange: [0, 1, 3, 5, 8],
+            outputRange: [1200, 600, 0, -600, -1200]
+        });
+
+        const xpos2 = this.animatedValue.interpolate({
+            inputRange: [0, 2, 4, 6, 8],
+            outputRange: [1200, 600, 0, -600, -1200]
+        });
+
+        const xpos3 = this.animatedValue.interpolate({
+            inputRange: [0, 3, 5, 7, 8],
+            outputRange: [1200, 600, 0, -600, -1200]
+        });
+
         return(
-            <ScrollView>
-                <RenderItem errMess={this.props.dishes.errMess} isLoading={this.props.dishes.isLoading} item={this.props.dishes.dishes.filter((dish) => dish.featured)[0]}></RenderItem>
-                <RenderItem errMess={this.props.promotions.errMess} isLoading={this.props.promotions.isLoading} item={this.props.promotions.promotions.filter((promo) => promo.featured)[0]}></RenderItem>
-                <RenderItem errMess={this.props.leaders.errMess} isLoading={this.props.leaders.isLoading} item={this.props.leaders.leaders.filter((leader) => leader.featured)[0]}></RenderItem>
-            </ScrollView>
+            <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
+                <Animated.View style={{ width: '100%', transform: [{translateX: xpos1}]}}>
+                    <RenderItem errMess={this.props.dishes.errMess} isLoading={this.props.dishes.isLoading} item={this.props.dishes.dishes.filter((dish) => dish.featured)[0]}></RenderItem>
+                </Animated.View>
+                <Animated.View style={{ width: '100%',  transform: [{translateX: xpos2}]}}>
+                    <RenderItem errMess={this.props.promotions.errMess} isLoading={this.props.promotions.isLoading} item={this.props.promotions.promotions.filter((promo) => promo.featured)[0]}></RenderItem>
+                </Animated.View>  
+                <Animated.View style={{ width: '100%',  transform: [{translateX: xpos3}]}}>  
+                    <RenderItem errMess={this.props.leaders.errMess} isLoading={this.props.leaders.isLoading} item={this.props.leaders.leaders.filter((leader) => leader.featured)[0]}></RenderItem>
+                </Animated.View>
+            </View>
         );
     }
 }
