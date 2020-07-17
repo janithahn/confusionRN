@@ -6,6 +6,7 @@ import { View, Platform } from "react-native";
 import { createStackNavigator, createDrawerNavigator } from "react-navigation";
 import Constants from "expo-constants";
 import { Icon } from "react-native-elements";
+import Login from './LoadingComponent';
 
 import Home from "./HomeComponent";
 import AboutUs from "./AboutComponent";
@@ -81,8 +82,32 @@ const ContactUsNavigator = createStackNavigator(
   }
 );
 
+const LoginNavigator = createStackNavigator(
+  {
+    Login: { screen: Login },
+  },
+  {
+    navigationOptions: ({ navigation }) => ({
+      headerStyle: {
+        backgroundColor: "#512DA8",
+      },
+      headerTitleStyle: {
+        color: "#fff",
+      },
+      headerTintColor: "#fff",
+    }),
+  }
+);
+
 const MainNavigator = createDrawerNavigator(
   {
+    Login: {
+      screen: LoginNavigator,
+      navigationOptions: {
+        title: "Login",
+        drawerLabel: "Login",
+      },
+    },
     Home: {
       screen: HomeNavigator,
       navigationOptions: {
