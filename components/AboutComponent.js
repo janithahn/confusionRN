@@ -21,7 +21,7 @@ function RenderItems(props) {
                     title={item.name}
                     subtitle={item.description}
                     chevron={false}
-                    leftAvatar={{uri: baseUrl + item.image}}
+                    leftAvatar={{source: {uri: baseUrl + item.image}}}
                 />
             );
         }
